@@ -1,40 +1,35 @@
 from shortener_app.utilities.url_id_generator import url_id_generator
-from shortener_app.utilities.api_key_generator import api_key_generator
 from shortener_app.data.url_details import url_store
-import uuid
+from shortener_app.data.user_details import user_store
+from shortener_app.utilities.find_key_by_value import (
+    find_user_uuid_by_url_id,
+    find_user_uuid_by_api_key,
+)
 
 base_url = "http://www.short.com/"
 
 
-def user_details_service(name: str) -> dict:
-    api_key = api_key_generator()
-    user_uuid = uuid.uuid4()
-    api_key_name = name
-    user_data = {"api_key": api_key, "api_key_name": api_key_name, "user id": user_uuid}
-    url_store[user_uuid] = user_data
-    return {k: v for k, v in user_data.items() if k != "user_id"}
-
-
-def url_generator_service(url: str, api_key: str) -> dict:
-    if url and api_key:
-        url_id = url_id_generator(url)
-        api_key = api_key_generator()
-        url_data = {
-            "unique_id": url_id,
-            "url": url,
-            "short_url": base_url + url_id,
-            "api_key": api_key,
-        }
-
+def create_short_url_service(url: str, api_key: str) -> dict:
+    if not url or not api_key:
+        return {"message": "URL and API key are required!"}
+    user_id = find_user_uuid_by_api_key(user_store, api_key)
+    if not user_id:
+        return {"message": "Invalid API key!"}
+    url_id = url_id_generator(url)
+    url_data = {
+        "url": url,
+        "unique_id": url_id,
+        "short_url": base_url + url_id,
+    }
+    url_store[user_id] = url_data
     return url_data
 
 
-def url_update_service(url: str, unique_id: str, api_key: str, new_url: str) -> dict:
-    return {"unique_id": unique_id, "url": url}
-
-
-def url_delete_service(unique_id: str, api_key: str) -> dict:
-    return {"unique_id": unique_id, "message": "URL deleted successfully!"}
+def get_short_url_service(url_id: str) -> dict:
+    user_id = find_user_uuid_by_url_id(user_store, url_id)
+    if not user_id:
+        return {"message": "Invalid URL ID!"}
+    return url_store[user_id]["short_url"]
 
 
 # def url_get_service(api_key: str, url: str) -> dict:
@@ -46,3 +41,11 @@ def url_delete_service(unique_id: str, api_key: str) -> dict:
 - implement schema to validate request body 
 - prepare resposne models for documentation
 """
+# new_url = create_short_url_service(
+#     "google.com",
+#     "GLGDTYXEEAUUNRH8H6LN8TWOUJ9F",
+# )
+
+# print(new_url)
+
+# {'url': 'google.com', 'unique_id': '05c4VCkJ', 'short_url': 'http://www.short.com/05c4VCkJ'}
