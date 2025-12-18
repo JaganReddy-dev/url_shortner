@@ -1,10 +1,12 @@
-from shortener_app.utilities.url_id_generator import url_id_generator
-from shortener_app.data.url_details import url_store
-from shortener_app.data.user_details import user_store
-from shortener_app.utilities.find_key_by_value import (
+from shortener_app.Utilities.url_id_generator import url_id_generator
+from shortener_app.Data.url_details import url_store
+from shortener_app.Data.user_details import user_store
+from fastapi.responses import RedirectResponse
+from shortener_app.Utilities.find_key_by_value import (
     find_user_uuid_by_url_id,
     find_user_uuid_by_api_key,
 )
+
 
 base_url = "http://www.short.com/"
 
@@ -25,11 +27,21 @@ def create_short_url_service(url: str, api_key: str) -> dict:
     return url_data
 
 
-def get_short_url_service(url_id: str) -> dict:
-    user_id = find_user_uuid_by_url_id(user_store, url_id)
+def get_short_url_by_id_service(url_id: str) -> dict:
+    user_id = find_user_uuid_by_url_id(url_store, url_id)
     if not user_id:
         return {"message": "Invalid URL ID!"}
-    return url_store[user_id]["short_url"]
+    return {
+        "short url": url_store[user_id]["short_url"],
+        "long url": url_store[user_id]["url"],
+    }
+
+
+def redirect_service(url_id: str) -> RedirectResponse:
+    user_id = find_user_uuid_by_url_id(url_store, url_id)
+    if not user_id:
+        return {"message": "Invalid URL ID!"}
+    return RedirectResponse(url_store[user_id]["url"], status_code=302)
 
 
 # def url_get_service(api_key: str, url: str) -> dict:

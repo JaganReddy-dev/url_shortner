@@ -1,7 +1,7 @@
 url_store = {
     "user_uuid": {
-        "url": "www.google.com",
-        "unique_id": "random_unique_id",
-        "short_url": "shorten.com/random_unique_id",
+        "url": "https://www.google.com",
+        "unique_id": "0PiWT3Xf",
+        "short_url": "shorten.com/0PiWT3Xf",
     }
 }

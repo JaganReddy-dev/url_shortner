@@ -1,5 +1,5 @@
-from shortener_app.utilities.api_key_generator import api_key_generator
-from shortener_app.data.user_details import user_store
+from shortener_app.Utilities.api_key_generator import api_key_generator
+from shortener_app.Data.user_details import user_store
 import uuid
 
 base_url = "http://www.short.com/"
