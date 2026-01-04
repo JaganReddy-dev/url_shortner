@@ -25,7 +25,7 @@ class IDGenerator:
 # apis
 #  - id (eg: F1WF313RQ8U31I4JE24HUF)
 # - name (e.g. DEV_API_KEY)
-# - api_key (e.g. SA1S23RKNF3JRI2R982IR94H2)
+# - api_key_hash (e.g. SA1S23RKNF3JRI2R982IR94H2)
 #  - created_at (e.g. 2023-01-01)
 # - expires_at (e.g. 2023-10-01)
 # - user_id (e.g. GLGDTYXEEAUUNRH8H6LN8TWOUJ9F)

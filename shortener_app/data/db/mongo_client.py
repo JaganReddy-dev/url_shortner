@@ -16,3 +16,10 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     print(e)
+
+db = client["url_shortener"]
+api_keys_collection = db["api_keys"]
+url_map_collection = db["url_map"]
+users_collection = db["users"]
+
+users_collection.create_index("user_name", unique=True)
