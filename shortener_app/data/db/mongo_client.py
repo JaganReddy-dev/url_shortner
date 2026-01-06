@@ -21,5 +21,10 @@ db = client["url_shortener"]
 api_keys_collection = db["api_keys"]
 url_map_collection = db["url_map"]
 users_collection = db["users"]
+counter_collection = db["counter"]
 
 users_collection.create_index("user_name", unique=True)
+url_map_collection.create_index([("user_id", 1), ("long_url", 1)], unique=True)
+url_map_collection.create_index("expires_at", expireAfterSeconds=0)
+api_keys_collection.create_index("api_key_hash", unique=True)
+api_keys_collection.create_index("expires_at", expireAfterSeconds=0)

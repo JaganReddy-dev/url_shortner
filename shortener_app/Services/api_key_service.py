@@ -7,7 +7,6 @@ def create_api_key_service(user_uuid: str, name: str) -> str:
     data = api_key_generator()
     hashed_api_key = hash(data.get("api_key"))
     object = {
-        "id": "_id",
         "name": name,
         "api_key_hash": hashed_api_key,
         "created_at": data.get("created_at"),
@@ -15,5 +14,13 @@ def create_api_key_service(user_uuid: str, name: str) -> str:
         "user_id": user_uuid,
         "is_active": True,
     }
-    api_keys_collection.insert_one(object)
-    return object
+    result = api_keys_collection.insert_one(object)
+    return {
+        "id": str(result.inserted_id),
+        "name": name,
+        "api_key": data.get("api_key"),
+        "created_at": data.get("created_at"),
+        "expires_at": data.get("expires_at"),
+        "user_id": user_uuid,
+        "is_active": object.get("is_active"),
+    }

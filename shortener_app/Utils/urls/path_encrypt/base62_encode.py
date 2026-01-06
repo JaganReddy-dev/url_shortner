@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
 base62 = os.getenv("BASE62")
 
 

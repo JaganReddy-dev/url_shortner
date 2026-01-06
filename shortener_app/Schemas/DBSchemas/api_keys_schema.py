@@ -1,4 +1,4 @@
-def individual_api_key_response(api_key_record):
+def individual_api_key_data(api_key_record):
     return {
         "id": str(api_key_record["_id"]),
         "name": api_key_record["name"],
@@ -8,6 +8,10 @@ def individual_api_key_response(api_key_record):
         "expires_at": api_key_record["expires_at"],
         "is_active": api_key_record["is_active"],
     }
+
+
+def all_api_keys_data(api_keys):
+    return [individual_api_key_data(api_key) for api_key in api_keys]
 
 
 # object = {
