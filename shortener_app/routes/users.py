@@ -1,8 +1,6 @@
 from fastapi import APIRouter
 from shortener_app.Services.new_user_service import new_user_service
-from shortener_app.Schemas.ReqResSchemas.ReqSchemas.create_users_request_schema import (
-    UserSchema,
-)
+from shortener_app.Models.API.v1.request.users_request import UserRequest
 
 router = APIRouter(
     prefix="/users",
@@ -14,6 +12,8 @@ router = APIRouter(
     "/",
     summary="Add new user",
     description="Create a new user in the system.",
+    response_model=None,
 )
-def create_user(user: UserSchema):
-    return new_user_service(user.name)
+def create_user(user: UserRequest):
+    result = new_user_service(user.name)
+    return result
