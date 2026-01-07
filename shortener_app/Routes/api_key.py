@@ -1,7 +1,9 @@
 from fastapi import APIRouter
-from shortener_app.Services.api_key_service import create_api_key_service
-from shortener_app.Models.v1.response.create_api_key_response import APIKeyResponse
-from shortener_app.Models.v1.request.create_api_key_request import APIKeyRequest
+from shortener_app.Services.api_keys.create_api_key import (
+    create_api_key_service,
+)
+from shortener_app.Models.v1.response.create_api_key import APIKeyResponse
+from shortener_app.Models.v1.request.create_api_key import APIKeyRequest
 
 
 router = APIRouter(
@@ -12,7 +14,7 @@ router = APIRouter(
 
 
 @router.post(
-    "/",
+    "/new",
     summary="Create an API Key",
     description="Generate a API Key when provided with a valid user uuid and a valid API key name.",
     response_model=APIKeyResponse,

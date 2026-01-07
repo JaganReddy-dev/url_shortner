@@ -1,6 +1,6 @@
 from shortener_app.Data.DB.mongo_client import api_keys_collection
 from shortener_app.Utils.api_keys.api_key_gen import api_key_generator
-from shortener_app.Utils.api_keys.hashed.hash import hash
+from shortener_app.Utils.api_keys.hashed.hash import hash_api_key
 from pymongo.errors import DuplicateKeyError
 from fastapi import HTTPException
 
@@ -21,7 +21,7 @@ async def create_api_key_service(user_uuid: str, name: str) -> dict:
     """
     # Generate API key and metadata
     data = api_key_generator()
-    hashed_api_key = hash(data["api_key"])
+    hashed_api_key = hash_api_key(data["api_key"])
 
     document = {
         "name": name,

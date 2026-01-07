@@ -10,7 +10,7 @@ from datetime import datetime, timezone, timedelta
 from fastapi import HTTPException
 
 
-async def create_new_short_url_service(long_url: str, api_key: str) -> dict:
+async def create_short_url_service(long_url: str, api_key: str) -> dict:
     """
     Creates a new short URL for the given long URL.
 

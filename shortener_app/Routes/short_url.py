@@ -1,7 +1,9 @@
 from fastapi import APIRouter
-from shortener_app.Services.new_url_Service import create_new_short_url_service
-from shortener_app.Models.v1.request.create_short_url_request import URLRequest
-from shortener_app.Models.v1.response.create_short_url_response import URLResponse
+from shortener_app.Services.url_services.create_short_url import (
+    create_short_url_service,
+)
+from shortener_app.Models.v1.request.create_short_url import URLRequest
+from shortener_app.Models.v1.response.create_short_url import URLResponse
 
 router = APIRouter(
     prefix="/short_url",
@@ -17,4 +19,4 @@ router = APIRouter(
     response_model=URLResponse,
 )
 def generate_short_url_path(url_data: URLRequest):
-    return create_new_short_url_service(url_data.long_url, url_data.api_key)
+    return create_short_url_service(url_data.long_url, url_data.api_key)
