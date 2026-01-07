@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from shortener_app.Routes.urls import router as urls_router
-from shortener_app.Routes.users import router as users_router
-from shortener_app.Routes.api_keys import router as api_keys_router
+from shortener_app.Routes.create_short_url import router as urls_router
+from shortener_app.Routes.create_user import router as users_router
+from shortener_app.Routes.create_api_key import router as api_keys_router
 
 app = FastAPI(
     title="URL Shortener API",

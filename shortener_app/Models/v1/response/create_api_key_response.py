@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class APIKeyResponse(BaseModel):
-    id: str = Field(alias="_id")
+    id: str = Field
     name: str
     api_key: str = Field(..., min_length=28, max_length=28)
     created_at: datetime
