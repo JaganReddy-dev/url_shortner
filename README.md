@@ -6,7 +6,6 @@ A simple URL shortener application built with FastAPI and MongoDB. Create users,
 
 - **Author:** [Jagan](https://github.com/JaganReddy-dev)
 - **Version:** 0.1.0
-- **License:** MIT License
 
 ## Features
 
@@ -129,7 +128,3 @@ Users are created with a unique lowercase username and stored in MongoDB.
 - `401 Unauthorized` - Invalid or expired API key
 - `409 Conflict` - Duplicate username, API key name, or URL
 - `500 Internal Server Error` - Short URL generation collision (rare)
-
-## License
-
-MIT License
