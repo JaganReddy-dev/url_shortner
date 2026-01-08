@@ -18,5 +18,5 @@ router = APIRouter(
     description="Generates a short URL path if API key is valid and long URL is provided.",
     response_model=URLResponse,
 )
-def generate_short_url_path(url_data: URLRequest):
-    return create_short_url_service(url_data.long_url, url_data.api_key)
+async def generate_short_url_path(url_data: URLRequest):
+    return await create_short_url_service(url_data.long_url, url_data.api_key)

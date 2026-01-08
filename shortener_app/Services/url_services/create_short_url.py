@@ -3,7 +3,7 @@ from shortener_app.Data.DB.mongo_client import api_keys_collection
 from shortener_app.Data.DB.mongo_client import counter_collection
 from shortener_app.Utils.urls.path_encrypt.base62_encode import encode_base62
 from shortener_app.Utils.urls.path_encrypt.obfuscate import obfuscate_counter
-from shortener_app.Utils.api_keys.hashed.hash import hash
+from shortener_app.Utils.api_keys.hashed.hash import hash_api_key
 from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 from datetime import datetime, timezone, timedelta
@@ -25,11 +25,12 @@ async def create_short_url_service(long_url: str, api_key: str) -> dict:
         HTTPException: 400 if params missing, 401 if invalid API key,
                       409 if URL already exists
     """
+    long_url = str(long_url)
     if not long_url or not api_key:
         raise HTTPException(status_code=400, detail="Long URL and API key are required")
 
     # Hash and validate API key
-    hashed_api_key = hash(api_key)
+    hashed_api_key = hash_api_key(api_key)
     api_key_doc = await api_keys_collection.find_one(
         {"api_key_hash": hashed_api_key, "is_active": True}
     )
