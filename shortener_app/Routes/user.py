@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from shortener_app.Services.user_services.create_user import new_user_service
-from shortener_app.Models.v1.request.create_user import UserRequest
-from shortener_app.Models.v1.response.create_user import UserResponse
-from shortener_app.Models.v1.response.get_urls_by_user_id import GetUrlsByUserIdResponse
-from shortener_app.Services.user_services.get_urls_by_user_id import (
+from shortener_app.Services.user.create_user import new_user_service
+from shortener_app.Models.V1.Request.create_user import UserRequest
+from shortener_app.Models.V1.Response.create_user import UserResponse
+from shortener_app.Models.V1.Response.get_urls_by_user_id import GetUrlsByUserIdResponse
+from shortener_app.Services.user.get_urls_by_user_id import (
     get_urls_by_user_id_service,
 )
 

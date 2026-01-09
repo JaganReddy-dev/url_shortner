@@ -15,6 +15,8 @@ api_keys_collection = db["api_keys"]
 url_map_collection = db["url_map"]
 users_collection = db["users"]
 counter_collection = db["counter"]
+user_collection = db["user"]
+user_profile_collection = db["user_profile"]
 
 
 async def initialize_database():

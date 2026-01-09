@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from shortener_app.Services.url_services.create_short_url import (
+from shortener_app.Services.short_url.create_short_url import (
     create_short_url_service,
 )
-from shortener_app.Models.v1.request.create_short_url import URLRequest
-from shortener_app.Models.v1.response.create_short_url import URLResponse
+from shortener_app.Models.V1.Request.create_short_url import URLRequest
+from shortener_app.Models.V1.Response.create_short_url import URLResponse
 
 router = APIRouter(
     prefix="/short_url",

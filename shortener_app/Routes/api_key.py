@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from shortener_app.Services.api_keys.create_api_key import (
+from shortener_app.Services.api_key.create_api_key import (
     create_api_key_service,
 )
-from shortener_app.Models.v1.response.create_api_key import APIKeyResponse
-from shortener_app.Models.v1.request.create_api_key import APIKeyRequest
+from shortener_app.Models.V1.Response.create_api_key import APIKeyResponse
+from shortener_app.Models.V1.Request.create_api_key import APIKeyRequest
 
 
 router = APIRouter(
@@ -25,3 +25,13 @@ async def create_api_key(api_key_data: APIKeyRequest):
     return await create_api_key_service(
         api_key_data.user_uuid, api_key_data.api_key_name
     )
+
+
+@router.get(
+    "/all/{user_uuid}",
+    summary="Get all API Keys for a User",
+    description="Retrieve all API Keys associated with a given user UUID.",
+)
+async def get_all_api_keys(user_uuid: str):
+    """Get all API keys for a specific user."""
+    return await get_all_api_keys_service(user_uuid)
