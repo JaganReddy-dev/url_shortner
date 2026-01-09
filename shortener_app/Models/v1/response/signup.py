@@ -19,6 +19,7 @@ class UserSignUpResponse(BaseModel):
 class UserInDB(BaseModel):
     """Model for user data stored in database"""
 
+    uuid: str
     email: str
     username: str
     hashed_password: str

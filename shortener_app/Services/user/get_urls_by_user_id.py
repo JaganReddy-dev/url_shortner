@@ -1,5 +1,5 @@
 from shortener_app.Data.DB.mongo_client import url_map_collection
-from shortener_app.Models.v1.response.get_urls_by_user_id import GetUrlsByUserIdResponse
+from shortener_app.Models.V1.Response.get_urls_by_user_id import GetUrlsByUserIdResponse
 
 
 async def get_urls_by_user_id_service(
