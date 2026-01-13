@@ -13,10 +13,8 @@ client = AsyncMongoClient(uri, server_api=ServerApi("1"))
 db = client["url_shortener"]
 api_keys_collection = db["api_keys"]
 url_map_collection = db["url_map"]
-users_collection = db["users"]
 counter_collection = db["counter"]
 user_collection = db["user"]
-roles_collection = db["roles"]
 
 
 async def initialize_database():
@@ -33,7 +31,7 @@ async def initialize_database():
         raise
 
     # Create indexes
-    await users_collection.create_index("user_name", unique=True)
+    await user_collection.create_index("user_name", unique=True)
     await url_map_collection.create_index(
         [("user_id", 1), ("short_url_path", 1)], unique=True
     )
