@@ -9,12 +9,10 @@ A simple URL shortener application built with FastAPI and MongoDB. Create users,
 
 ## Features
 
-- **Create Users:** Register new users with unique lowercase usernames
-- **Generate API Keys:** Create 28-character API keys with at least 4 digits
+- **User Authentication:** Sign up and login with username and password
+- **Generate API Keys:** Create API keys for users
 - **Generate Short URLs:** Convert long URLs to short URL paths using Base62 encoding
 - **Retrieve User URLs:** Get all URL mappings created by a specific user
-- **API Key Authentication:** Validate API keys for URL shortening requests
-- **Duplicate URL Prevention:** Prevent duplicate short URLs for the same user
 
 ## Tech Stack
 
@@ -66,12 +64,33 @@ API Documentation (Swagger UI): `http://localhost:8000/docs`
 
 ## API Endpoints
 
-### Create User
+### Sign Up
 
-- **Endpoint:** `POST /users/new`
-- **Request:** `{"name": "username"}`
-- **Response:** User object with id, user_name, is_active, created_at, updated_at
+- **Endpoint:** `POST /auth/signup`
+- **Request:** `{"username": "username", "password": "password"}`
+- **Response:** User object
 - **Status:** 201 Created
+
+### Login
+
+- **Endpoint:** `POST /auth/login`
+- **Request:** `{"username": "username", "password": "password"}`
+- **Response:** Boolean (true if authentication successful)
+- **Status:** 200 OK
+
+### Create API Key
+
+- **Endpoint:** `POST /api_key/new`
+- **Request:** `{"user_uuid": "user_id", "api_key_name": "key_name"}`
+- **Response:** API key object
+- **Status:** 201 Created
+
+### Generate Short URL
+
+- **Endpoint:** `POST /short_url/new`
+- **Request:** `{"long_url": "https://example.com/long/url", "api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"}`
+- **Response:** URL mapping object
+- **Status:** 200 OK
 
 ### Get User URLs
 
@@ -79,53 +98,28 @@ API Documentation (Swagger UI): `http://localhost:8000/docs`
 - **Response:** List of URL mappings with long_url and short_url_path
 - **Status:** 200 OK
 
-### Create API Key
-
-- **Endpoint:** `POST /api_key/new`
-- **Request:** `{"user_uuid": "user_id", "api_key_name": "key_name"}`
-- **Response:** API key object with id, name, api_key (plaintext), created_at, expires_at, user_id, is_active
-- **Status:** 201 Created
-
-### Generate Short URL
-
-- **Endpoint:** `POST /short_url/new`
-- **Request:** `{"long_url": "https://example.com/long/url", "api_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"}`
-- **Response:** URL mapping object with id, short_url_path, long_url, created_at, expires_at, user_id, is_active
-- **Status:** 200 OK
-
 ## How It Works
 
-### User Creation
+### User Authentication
 
-Users are created with unique lowercase usernames and stored in MongoDB.
+Users register with a username, password, phone and email, then can log in to authenticate.
 
 ### API Key Generation
 
-- 28-character alphanumeric keys (uppercase letters A-Z and digits 0-9)
-- Ensures at least 4 digits for randomness
-- Keys are hashed with SHA256 before storage
-- Plaintext key returned only at creation time
-- 30-day expiration from creation date
+API keys can be created for authenticated users and can be used for URL shortening.
 
 ### Short URL Generation
 
 1. User submits long_url and api_key
-2. API key is validated (hashed and checked in database)
-3. Counter value is incremented and obfuscated using polynomial hash
-4. Short URL path is generated using Base62 encoding
-5. URL mapping stored with user association and 30-day expiration
-6. Duplicate URLs for same user are rejected with 409 Conflict
-
-### URL Retrieval
-
-Users can retrieve all their URL mappings (long_url, short_url_path pairs).
+2. API key is validated
+3. Short URL path is generated using Base62 encoding
+4. URL mapping is stored with user association
 
 ## Error Responses
 
-- `400 Bad Request` - Missing or invalid parameters (long_url or api_key)
-- `401 Unauthorized` - Invalid or inactive API key
-- `409 Conflict` - Duplicate username, API key name, or URL for user
-- `500 Internal Server Error` - Short URL path collision (extremely rare)
+- `400 Bad Request` - Missing or invalid parameters
+- `401 Unauthorized` - Invalid credentials or API key
+- `500 Internal Server Error` - Server error
 
 ## Database Collections
 
