@@ -16,7 +16,7 @@ url_map_collection = db["url_map"]
 users_collection = db["users"]
 counter_collection = db["counter"]
 user_collection = db["user"]
-user_profile_collection = db["user_profile"]
+roles_collection = db["roles"]
 
 
 async def initialize_database():
@@ -35,7 +35,7 @@ async def initialize_database():
     # Create indexes
     await users_collection.create_index("user_name", unique=True)
     await url_map_collection.create_index(
-        [("user_id", 1), ("long_url", 1)], unique=True
+        [("user_id", 1), ("short_url_path", 1)], unique=True
     )
     await url_map_collection.create_index("expires_at", expireAfterSeconds=0)
     await api_keys_collection.create_index("api_key_hash", unique=True)

@@ -31,9 +31,12 @@ async def create_user_service(user_data: UserSignUpRequest):
     except Exception as e:
         raise e
 
-    return UserSignUpResponse(
-        user_uuid=str(user_uuid),
-        email=user_data.email,
-        username=user_data.username,
-        created_at=created_at,
-    )
+    if not result.acknowledged:
+        raise Exception("Failed to create user.")
+    else:
+        return UserSignUpResponse(
+            user_uuid=str(user_uuid),
+            email=user_data.email,
+            username=user_data.username,
+            created_at=created_at,
+        )

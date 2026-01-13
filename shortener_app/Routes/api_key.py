@@ -25,13 +25,3 @@ async def create_api_key(api_key_data: APIKeyRequest):
     return await create_api_key_service(
         api_key_data.user_uuid, api_key_data.api_key_name
     )
-
-
-@router.get(
-    "/all/{user_uuid}",
-    summary="Get all API Keys for a User",
-    description="Retrieve all API Keys associated with a given user UUID.",
-)
-async def get_all_api_keys(user_uuid: str):
-    """Get all API keys for a specific user."""
-    return await get_all_api_keys_service(user_uuid)
